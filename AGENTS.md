@@ -10,7 +10,9 @@ rationale in Markdown.
 
 Keep `brain/SKILL.md` focused on the core workflow. Load setup and management references only when
 needed. Preserve verified Brain selection, login's opt-out, cited retrieval, stable retry IDs,
-private credentials, and durable saved receipts. Test installation into temporary projects while
-preserving existing instructions.
+private credentials, and durable saved receipts. Install skills globally for Codex and Claude Code
+by default; keep `--project` as an optional installation target. Test temporary user directories and
+projects while preserving existing instructions. CLI selection stays in the working directory's
+`.brain/config.toml`; only authentication is stored per user.
 
 This is a local evaluation preview. Do not publish skills or modify existing MCP/plugin packages.

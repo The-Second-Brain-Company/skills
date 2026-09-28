@@ -2,13 +2,13 @@
 
 ## Authentication
 
-Use `brain --project <directory> login` once per service origin. It opens the existing email sign-in
-and consent page, then selects the sole Brain for an unconfigured project. Add `--no-select` when
-the user wants to sign in without automatic selection. Existing project configuration is preserved.
-In an agent terminal that cannot open a browser, add `--no-browser`; share the
-`authorization_required` URL from stderr and keep the process alive while the user signs in. Resume
-that process to receive the result. The loopback callback must reach the machine running `brain`. A
-remote harness needs browser access to that loopback address or a local CLI session.
+Use `brain login` once per service origin. It opens the existing email sign-in and consent page,
+then selects the sole Brain when the directory has no saved selection. Add `--no-select` when the
+user wants to sign in without automatic selection. Existing selection is preserved. In an agent
+terminal that cannot open a browser, add `--no-browser`; share the `authorization_required` URL from
+stderr and keep the process alive while the user signs in. Resume that process to receive the
+result. The loopback callback must reach the machine running `brain`. A remote harness needs browser
+access to that loopback address or a local CLI session.
 
 The default origin is the local evaluation service at `http://second-brain.localhost:1355`. Respect
 an explicit `--origin` or `BRAIN_ORIGIN`. Authentication belongs to that origin. Inspect
@@ -30,9 +30,13 @@ skip, then run `brain account profile "Name"` or `brain account profile ""`. Ret
 creation. If permission approval is needed, show the returned link and wait for the user to approve
 before retrying the same request.
 
-Creation returns the new Organization ID. Run `brain --project <directory> use <new-id>` to select
-it. Creation alone deliberately leaves the current file untouched, so retries remain tied to their
-original Brain. If selection fails, report the created Brain and retain the prior selection.
+Creation returns the new Organization ID. Run `brain use <new-id>` to select it. Creation alone
+leaves the current selection untouched, so retries remain tied to their original Brain. If selection
+fails, report the created Brain and retain the prior selection.
+
+Commands read and write `.brain/config.toml` in the current directory. Use
+`brain --project <directory> use <id>` to select a Brain for another directory. Authentication is
+stored per user and service origin; Brain selection stays in the working directory.
 
 ## Onboard
 
