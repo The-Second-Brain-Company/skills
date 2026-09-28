@@ -73,9 +73,9 @@ stays in `.brain/config.toml`.
 ## Create and select
 
 For a creation request, generate a retry ID with `brain request-id`, then run
-`brain brains create "Chosen name" --request-id <id>` with the original selected `--brain <id>` if
-one exists. Do not create another Brain to onboard an existing one. Preserve the original name,
-retry ID, and selection across retries, including when creation succeeded but its reply was lost.
+`brain brains create "Chosen name" --request-id <id>` in the task's working directory. Do not create
+another Brain to onboard an existing one. Preserve the original name, retry ID, and selection across
+retries, including when creation succeeded but its reply was lost.
 
 If creation reports missing profile completion, ask what to call the user, or accept their choice to
 skip, then run `brain account profile "Name"` or `brain account profile ""`. Retry the original

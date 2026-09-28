@@ -23,8 +23,10 @@ authority.
 
 At the first Brain operation in a task, run `brain config` in its working directory. The CLI reads
 that directory's `.brain/config.toml`. Keep the returned Brain ID and service origin for this task.
-Run subsequent commands in the same directory. Use `--brain <id>` for waits, retries, or calls from
-another directory so they remain attached to the original Brain.
+Run subsequent commands in the same directory and let the CLI read the configured selection. Use
+`--brain <id>` only for a deliberate one-command override or to resume an earlier operation after
+the configured selection has changed. Retain the original Brain ID for that recovery; normal
+commands, waits, and retries use the configuration while it still selects that Brain.
 
 Login selects the only Brain automatically when the directory is unconfigured unless `--no-select`
 is given. Use its verified selection when `data.selection.selected` is true. Honor the opt-out and
@@ -45,11 +47,11 @@ roles, ownership, Git credentials, or app disconnection, read
 
 ## Find knowledge
 
-Use `brain --brain <id> search "question terms"`, then `brain --brain <id> read <path>` for the
-relevant evidence. Paths are remote knowledge paths. Pin subsequent reads to the returned
-`--revision <sha>` when assembling one answer. Follow `nextOffset`, `nextLine`, and per-file errors;
-a partial result cannot establish that something is absent. `knowledge grep` performs literal
-matching, and `knowledge read-many --file -` accepts JSON ranges for a batch.
+Use `brain search "question terms"`, then `brain read <path>` for the relevant evidence. Paths are
+remote knowledge paths. Pin subsequent reads to the returned `--revision <sha>` when assembling one
+answer. Follow `nextOffset`, `nextLine`, and per-file errors; a partial result cannot establish that
+something is absent. `knowledge grep` performs literal matching, and `knowledge read-many --file -`
+accepts JSON ranges for a batch.
 
 Cite the returned `source_url` alongside supported claims. Preserve draft, proposal, approval,
 conflict, and uncertainty distinctions in sources. Explain relevant missing evidence without
@@ -59,17 +61,17 @@ preflight for every question.
 ## Record knowledge
 
 Save when the user requests it or gives clear onboarding answers. Send the supplied facts to
-`brain --brain <id> record --file <utf8-file> --request-id <id>`; use `--file -` for stdin and
+`brain record --file <utf8-file> --request-id <id>`; use `--file -` for stdin and
 `--attachment <path>` for each requested import. The server chooses paths, validates changes, and
 commits them. Source files are processed transiently; only extracted knowledge and source receipts
 are retained. PDF and Office extraction is currently deferred.
 
 Generate a retry ID first with `brain request-id`. Retain it with the original Brain, facts, and
 attachment bytes. Reuse these unchanged after a timeout or uncertain result. A running result
-continues with `brain --brain <original-id> runs get <runId> --wait 25`. Do not submit another
-recording to wait for the first one. Only `status: saved` confirms a durable commit; report running,
-failed, cancelled, and not_saved outcomes accurately. Keep internal receipts out of the prose
-summary.
+continues with `brain runs get <runId> --wait 25` while the original Brain remains selected. Do not
+submit another recording to wait for the first one. Only `status: saved` confirms a durable commit;
+report running, failed, cancelled, and not_saved outcomes accurately. Keep internal receipts out of
+the prose summary.
 
 Use `knowledge replace --file <json-file>` only for a requested exact edit. Read the current content
 and revision, preserve unrelated content, and supply `content`, `baseRevision`, and changed

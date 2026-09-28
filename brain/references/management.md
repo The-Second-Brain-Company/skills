@@ -1,6 +1,7 @@
 # People and access
 
-Use the selected Brain ID explicitly. Discover exact flags with the command's `--help`.
+Run commands in the task's working directory so the CLI uses its configured Brain. Discover exact
+flags with the command's `--help`.
 
 - `people list` returns members, roles, and invitations.
 - `people invite <email> --role read|write|admin` sends an invitation. Use it when the user asks to
