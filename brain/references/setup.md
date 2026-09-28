@@ -43,6 +43,23 @@ inventing a curl URL or installing a similarly named npm or Cargo package. If mi
 report that prerequisite and point to <https://mise.jdx.dev/>. If the build fails, preserve its
 diagnostic and address that failure before continuing with Brain commands.
 
+## Command failures
+
+A failed command provides no evidence about whether the requested knowledge exists. Resolve the
+reported failure before changing search terms or asking the user to supply the data.
+
+- `io`: check whether the host sandbox denied local file or socket access. Authenticated commands
+  need access to the global credential directory and its lock, even for searches. Use the host's
+  normal permission mechanism to allow the command. Keep credentials private; do not read tokens,
+  copy them into the project, or loosen file permissions.
+- `network`: check the configured service origin, service availability, and permission to connect.
+- `protocol`: the service response could not be interpreted. Report the response failure and check
+  CLI/service compatibility. Rephrasing the query will not repair it.
+
+After recovery, retry in the same working directory with the original Brain and any existing write
+retry ID. If recovery is blocked, report the technical blocker. Only successful search results can
+support a conclusion about available knowledge.
+
 ## Authentication
 
 For setup, check `brain account show`. If it succeeds, reuse the existing sign-in. An
