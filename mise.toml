@@ -1,0 +1,19 @@
+[tools]
+node = "24.20.0"
+"npm:oxfmt" = "0.66.0"
+
+[tasks.install]
+dir = "{{config_root}}"
+run = "node scripts/install-skills.mjs"
+
+[tasks.test]
+dir = "{{config_root}}"
+run = "node --test scripts/*.test.mjs"
+
+[tasks.fmt]
+dir = "{{config_root}}"
+run = "oxfmt ."
+
+[tasks.fmt-check]
+dir = "{{config_root}}"
+run = "oxfmt --check ."
