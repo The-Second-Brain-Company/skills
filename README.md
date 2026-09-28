@@ -15,9 +15,13 @@ mise run test
 mise run install
 ```
 
-This repository is independent of the Brain CLI source. Build and install `brain` from its own
-repository and make the binary available on the agent's PATH. Installing these skills needs only the
-Node runtime pinned here; Rust and the CLI source are not required.
+This repository is independent of the Brain CLI source. Installing these skills needs only the Node
+runtime pinned here; Rust and the CLI source are not required to install the skill. On first use,
+the skill checks `brain --version` and follows its [setup guide](brain/references/setup.md) when the
+CLI is missing. It recovers an existing installation outside PATH or builds from local CLI source
+with mise, verifies the result, and continues with authentication and the requested task. Provide
+`BRAIN_CLI_SOURCE_DIR` or the source directory in your request when the agent does not already know
+where it is. Public binary downloads remain deferred during this preview.
 
 Installation is global for your user by default:
 

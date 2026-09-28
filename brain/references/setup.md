@@ -1,6 +1,54 @@
 # Setup and onboarding
 
+## Install the CLI
+
+Install a missing CLI as part of completing the user's Brain request. First check whether it is
+already installed outside the agent's PATH. The default location is `~/.local/bin/brain`; `BIN_DIR`
+can override its directory. If the binary there runs successfully, use it and add that directory to
+the shell's PATH for subsequent commands:
+
+```sh
+brain_bin_dir="${BIN_DIR:-$HOME/.local/bin}"
+"$brain_bin_dir/brain" --version
+export PATH="$brain_bin_dir:$PATH"
+brain --version
+```
+
+Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
+for each call, pass the same PATH on each call or use the verified absolute binary path.
+
+If no working binary is available, install from the existing local Rust source. Use
+`BRAIN_CLI_SOURCE_DIR` if provided, or the CLI source directory already known in this task. Confirm
+that it contains the `second-brain-cli` Cargo package, `mise.toml`, and `scripts/install.sh`. In the
+full Second Brain repository this is `cli/cli/`; an independent CLI mirror has them at its root. The
+installed skill's directory is not the CLI source directory. If the source location is unknown, ask
+for its path. Use the existing files, including saved uncommitted changes, without cloning another
+copy.
+
+With `brain_cli_source` set to that absolute source directory, run:
+
+```sh
+mise -C "$brain_cli_source" trust
+mise -C "$brain_cli_source" install
+mise -C "$brain_cli_source" run install
+```
+
+These commands build with the pinned toolchain and install to `BIN_DIR/brain` or
+`~/.local/bin/brain`. Verify the installed executable and PATH with the first block, then run
+`brain --help`. Keep the task's working directory for subsequent login, selection, and knowledge
+commands; `mise -C` selects the build directory without changing the task's shell directory.
+
+This preview has no published CLI download or public installer endpoint. Use local source instead of
+inventing a curl URL or installing a similarly named npm or Cargo package. If mise is unavailable,
+report that prerequisite and point to <https://mise.jdx.dev/>. If the build fails, preserve its
+diagnostic and address that failure before continuing with Brain commands.
+
 ## Authentication
+
+For setup, check `brain account show`. If it succeeds, reuse the existing sign-in. An
+`authentication` error requires login; a network or permission error requires its own recovery and
+does not mean the CLI needs reinstalling. `brain config` only reads local selection and cannot
+confirm authentication.
 
 Use `brain login` once per service origin. It opens the existing email sign-in and consent page,
 then selects the sole Brain when the directory has no saved selection. Add `--no-select` when the
@@ -17,6 +65,10 @@ Brain selected. Recover selection with `brain use` after addressing the error; s
 repeated. Only the user completes email verification and browser consent. Never ask for an OAuth
 token or read credential files. A missing scope requires renewed browser consent; membership roles
 remain authoritative even after consent.
+
+After login, confirm `brain account show` succeeds, then continue with selection in the original
+working directory. Only installation and authentication are shared across projects; Brain selection
+stays in `.brain/config.toml`.
 
 ## Create and select
 
