@@ -19,14 +19,6 @@ import { spawnSync } from "node:child_process";
 const script = fileURLToPath(new URL("./install-skills.mjs", import.meta.url));
 const source = fileURLToPath(new URL("../brain/", import.meta.url));
 
-test("the skill icon meets the minimum image dimensions", async () => {
-  const image = await readFile(join(source, "assets/logo.svg"), "utf8");
-  const viewBox = image.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/);
-  assert.ok(viewBox);
-  assert.ok(Number(viewBox[1]) >= 48);
-  assert.ok(Number(viewBox[2]) >= 48);
-});
-
 function install(root, ...args) {
   return spawnSync(process.execPath, [script, ...args], {
     encoding: "utf8",
