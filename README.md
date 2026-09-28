@@ -40,6 +40,21 @@ directory. Make the skill and a compatible binary available inside that environm
 OAuth callback is reachable before evaluating it there. The current tested target is a local Codex
 or Claude Code shell, on macOS; the CLI's Rust source can also be built for Linux.
 
+## Skill icon
+
+[brain/agents/openai.yaml](brain/agents/openai.yaml) supplies the Second Brain display name and
+`icon_small` and `icon_large` metadata documented in
+[OpenAI Docs](https://learn.chatgpt.com/docs/build-skills#optional-metadata). Both paths resolve to
+the bundled [Brain logo](brain/assets/logo.svg), relative to the skill directory. The SVG reuses the
+product mark and includes light and dark colors. The installer copies the metadata and asset along
+with the skill, so this repository and the installed skill remain self-contained.
+
+As of 28 September 2026, Claude Desktop's
+[custom skill guide](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills)
+and [skill metadata reference](https://code.claude.com/docs/en/skills#frontmatter-reference)
+document no equivalent skill-picker icon field. The logo remains available as a bundled asset, but
+its display in Claude's skill picker is unverified. No Claude-specific icon metadata is added.
+
 ## Development
 
 ```sh

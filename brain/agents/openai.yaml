@@ -1,0 +1,6 @@
+interface:
+  display_name: "Second Brain"
+  short_description: "Search and record knowledge with the Brain CLI"
+  icon_small: "./assets/logo.svg"
+  icon_large: "./assets/logo.svg"
+  brand_color: "#252822"
