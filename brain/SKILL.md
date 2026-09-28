@@ -19,9 +19,11 @@ The CLI reads only that directory's `.brain/config.toml`. Keep the returned Brai
 pass it as `--brain <id>` and keep the same `--project` and service origin on subsequent calls,
 including waits and retries. Changing shell directories must not change the Brain used by this task.
 
-If no selection exists, run `brain brains list` and show names and IDs without reading knowledge.
-Ask the user to choose unless they have already made an unambiguous selection. A sole membership is
-not a choice. Run `brain --project <directory> use <id>` for an authorized selection or switch. It
+Login selects the only Brain automatically for an unconfigured project unless `--no-select` is
+given. Use its verified selection when `data.selection.selected` is true. Honor the opt-out and
+inspect skipped or failed selection results. If no selection exists, run `brain brains list` and
+show names and IDs without reading knowledge. Ask the user to choose unless they have already made
+an unambiguous selection. Run `brain --project <directory> use <id>` for a selection or switch. It
 verifies access and saves TOML with rollback on failure. Continue only after the returned identity
 matches the intended Brain. Existing context and pending requests remain attached to the old ID.
 

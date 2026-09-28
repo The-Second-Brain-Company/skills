@@ -9,8 +9,8 @@ Use the pinned mise tasks. Run `mise install` after changing tool versions. Run 
 rationale in Markdown.
 
 Keep `brain/SKILL.md` focused on the core workflow. Load setup and management references only when
-needed. Preserve explicit Brain selection, cited retrieval, stable retry IDs, private credentials,
-and durable saved receipts. Test installation into temporary projects while preserving existing
-instructions.
+needed. Preserve verified Brain selection, login's opt-out, cited retrieval, stable retry IDs,
+private credentials, and durable saved receipts. Test installation into temporary projects while
+preserving existing instructions.
 
 This is a local evaluation preview. Do not publish skills or modify existing MCP/plugin packages.
