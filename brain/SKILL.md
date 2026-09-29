@@ -51,10 +51,10 @@ roles, ownership, Git credentials, or app disconnection, read
 
 Use `brain search "question terms"`, then `brain read <path>` for the relevant evidence. Paths are
 remote knowledge paths. Pin subsequent reads to the returned `--revision <sha>` when assembling one
-answer. Follow `nextOffset`, `nextLine`, and per-file errors; a partial result cannot establish that
-something is absent. For grep, carry `nextMatchOffset` together with `nextOffset` when returned.
-`knowledge grep` performs literal matching, and `knowledge read-many --file -` accepts JSON ranges
-for a batch.
+answer. Follow opaque `nextCursor` with `--cursor` when present, otherwise `nextOffset`; check
+`nextLine` and per-file errors; a partial result cannot establish that something is absent. For
+grep, carry `nextMatchOffset` together with `nextOffset` when returned. `knowledge grep` performs
+literal matching, and `knowledge read-many --file -` accepts JSON ranges for a batch.
 
 Cite the returned `source_url` alongside supported claims. Preserve draft, proposal, approval,
 conflict, and uncertainty distinctions in sources. Explain relevant missing evidence without
@@ -65,9 +65,11 @@ preflight for every question.
 
 Save when the user requests it or gives clear onboarding answers. Send the supplied facts to
 `brain record --file <utf8-file> --request-id <id>`; use `--file -` for stdin and
-`--attachment <path>` for each requested import. The server chooses paths, validates changes, and
-commits them. Source files are processed transiently; only extracted knowledge and source receipts
-are retained. PDF and Office extraction is currently deferred.
+`--attachment <path>` for each requested import. Restricted writers supply
+`--target <directory-or-file>` for a selected writable area. Use `access show` and
+`access explain <path>` when the target is unclear. The server validates the whole diff and commits
+it. Source files are processed transiently; only extracted knowledge and source receipts are
+retained. PDF and Office extraction is currently deferred.
 
 Generate a retry ID first with `brain request-id`. Retain it with the original Brain, facts, and
 attachment bytes. Reuse these unchanged after a timeout or uncertain result. A running result
@@ -76,6 +78,7 @@ submit another recording to wait for the first one. Only `status: saved` confirm
 report running, failed, cancelled, and not_saved outcomes accurately. Keep internal receipts out of
 the prose summary.
 
-Use `knowledge replace --file <json-file>` only for a requested exact edit. Read the current content
-and revision, preserve unrelated content, and supply `content`, `baseRevision`, and changed
-`documents`. A conflict requires a fresh read and merge. Ordinary facts use `record`.
+For requested exact edits, use `knowledge patch --file <json-file>` with `files`, `baseRevision`,
+and `summary`. Include only changed files; the service maintains required index links. A conflict
+requires a fresh read and review. Ordinary facts use `record`. Protected moves use the reviewed
+management procedure in [management.md](references/management.md).
