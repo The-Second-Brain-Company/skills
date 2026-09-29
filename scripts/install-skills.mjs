@@ -24,16 +24,16 @@ const { values } = parseArgs({
 });
 if (values.help) {
   process.stdout.write(
-    "Usage: mise run install -- [--replace] [--project /path/to/project]\n\nInstalls globally for Codex and Claude Code by default.\nBRAIN_SKILLS_HOME overrides the home directory for isolated testing.\n",
+    "Usage: mise run install -- [--replace] [--project /path/to/project]\n\nInstalls globally for Codex and Claude Code by default.\nCORTEX_SKILLS_HOME overrides the home directory for isolated testing.\n",
   );
   process.exit(0);
 }
 if (values.project === "") throw new Error("--project requires a directory");
 const project = values.project ? await realpath(resolve(values.project)) : null;
-const root = project ?? (await realpath(resolve(process.env.BRAIN_SKILLS_HOME || homedir())));
-const source = resolve(dirname(fileURLToPath(import.meta.url)), "../brain");
+const root = project ?? (await realpath(resolve(process.env.CORTEX_SKILLS_HOME || homedir())));
+const source = resolve(dirname(fileURLToPath(import.meta.url)), "../cortex");
 const agents = project ? [".agents"] : [".agents", ".claude"];
-const destinations = agents.map((agent) => join(root, agent, "skills/brain"));
+const destinations = agents.map((agent) => join(root, agent, "skills/cortex"));
 const instructions = project ? join(project, "AGENTS.md") : null;
 
 async function metadata(path) {
@@ -51,7 +51,7 @@ for (const destination of destinations) {
   }
   if ((await metadata(destination)) && !values.replace)
     throw new Error(
-      `Brain skill already exists at ${destination}. Rerun with --replace to update it.`,
+      `Cortex skill already exists at ${destination}. Rerun with --replace to update it.`,
     );
 }
 if (instructions && (await metadata(instructions))?.isSymbolicLink())
@@ -65,7 +65,7 @@ const current = instructions
 
 for (const destination of destinations) {
   await mkdir(dirname(destination), { recursive: true });
-  const staging = await mkdtemp(join(dirname(destination), ".brain-install-"));
+  const staging = await mkdtemp(join(dirname(destination), ".cortex-install-"));
   const replacement = join(staging, "next");
   const previous = join(staging, "previous");
   let backedUp = false;
@@ -87,11 +87,11 @@ for (const destination of destinations) {
   }
 }
 const pointer =
-  "For Second Brain setup, selection, knowledge, or people requests, read `.agents/skills/brain/SKILL.md` and use the `brain` CLI.";
+  "For Cortex setup, selection, knowledge, or people requests, read `.agents/skills/cortex/SKILL.md` and use the `cortex` CLI.";
 if (instructions && !current.includes(pointer))
   await writeFile(
     instructions,
-    `${current.trimEnd()}${current.trim() ? "\n\n" : ""}## Brain CLI\n\n${pointer}\n`,
+    `${current.trimEnd()}${current.trim() ? "\n\n" : ""}## Cortex CLI\n\n${pointer}\n`,
   );
 process.stdout.write(
   `${JSON.stringify({ scope: project ? "project" : "user", installed: destinations, instructions })}\n`,
