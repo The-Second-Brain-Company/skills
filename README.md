@@ -2,8 +2,7 @@
 
 Portable instructions for agents that can execute the `cortex` CLI. The collection currently has one
 entry point, [cortex/SKILL.md](cortex/SKILL.md), with setup and management references loaded when
-needed. It handles selecting a Cortex, cited retrieval, recording, onboarding, and access
-management.
+needed. It handles selecting a Brain, cited retrieval, recording, onboarding, and access management.
 
 ## Install locally
 
@@ -34,7 +33,7 @@ Installation is global for your user by default:
 Both copies include the instructions, references, and logo. They work across projects without an
 `AGENTS.md`, `CLAUDE.md`, or project-specific skill installation. Run `cortex login`, then
 `cortex config` or `cortex use <id>` from your working directory. Commands automatically read and
-write `.cortex/config.toml` there. Authentication is stored per user and service origin; Cortex
+write `.cortex/config.toml` there. Authentication is stored per user and service origin; Brain
 selection stays in each working directory, with no global default.
 
 After editing these source files, update both installed copies with:
@@ -51,7 +50,7 @@ existing MCP plugin remains available; explicitly ask for the Cortex CLI during 
 For a project-only installation, use `mise run install -- --project /path/to/project`. This copies
 the skill to that project's `.agents/skills/cortex` and adds a pointer to its `AGENTS.md`,
 preserving existing instructions. Add `--replace` to update that copy. Separately, the CLI's
-`cortex --project /path/to/project use <id>` selects a Cortex for a directory other than the current
+`cortex --project /path/to/project use <id>` selects a Brain for a directory other than the current
 one.
 
 ## Agent environments

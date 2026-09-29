@@ -1,6 +1,6 @@
 # People and access
 
-Run commands in the task's working directory so the CLI uses its configured Cortex. Discover exact
+Run commands in the task's working directory so the CLI uses its configured Brain. Discover exact
 flags with the command's `--help`.
 
 - `people list` returns members, roles, and invitations.
@@ -19,7 +19,7 @@ flags with the command's `--help`.
 - `repository access revoke <access-id>` revokes a Git credential; downloaded copies remain.
 - `repository retry` retries the existing repository setup association.
 - `connections list` and `connections disconnect <connection-id>` manage the caller's apps for this
-  Cortex. `account show` and `account disconnect <connection-id>` work across their memberships.
+  Brain. `account show` and `account disconnect <connection-id>` work across their memberships.
 - `runs cancel <run-id>` stops an active recording. Check its receipt: a completed commit survives
   cancellation. `logout` revokes this CLI's connection and removes its local credentials.
 

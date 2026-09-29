@@ -9,7 +9,7 @@ Use the pinned mise tasks. Run `mise install` after changing tool versions. Run 
 rationale in Markdown.
 
 Keep `cortex/SKILL.md` focused on the core workflow. Load setup and management references only when
-needed. Preserve verified Cortex selection, login's opt-out, cited retrieval, stable retry IDs,
+needed. Preserve verified Brain selection, login's opt-out, cited retrieval, stable retry IDs,
 private credentials, and durable saved receipts. Install skills globally for Codex and Claude Code
 by default; keep `--project` as an optional installation target. Test temporary user directories and
 projects while preserving existing instructions. CLI selection stays in the working directory's
