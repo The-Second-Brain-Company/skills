@@ -75,8 +75,10 @@ Save when the user requests it or gives clear onboarding answers. Send the suppl
 `--attachment <path>` for each requested import. Restricted writers supply
 `--target <directory-or-file>` for a selected writable area. Use `access show` and
 `access explain <path>` when the target is unclear. The server validates the whole diff and commits
-it. Source files are processed transiently; only extracted knowledge and source receipts are
-retained. PDF and Office extraction is currently deferred.
+it. Imported originals are retained under the target's `_attachments/` before extraction. Supply
+`--target` for file imports. To extract from files already saved, use `--sources <json-file>` with
+an array of `{path, revision}` references. PDF and Office extraction uses the client's document
+tools; retaining a file alone does not establish that its contents were read.
 
 Generate a retry ID first with `cortex request-id`. Retain it with the original Brain, facts, and
 attachment bytes. Reuse these unchanged after a timeout or uncertain result. A running result
@@ -89,3 +91,18 @@ For requested exact edits, use `knowledge patch --file <json-file>` with `files`
 and `summary`. Include only changed files; the service maintains required index links. A conflict
 requires a fresh read and review. Ordinary facts use `record`. Protected moves use the reviewed
 management procedure in [management.md](references/management.md).
+
+## Retain files and use templates
+
+Use
+`knowledge upload <domain/_attachments/name> --file <local-file> --base-revision <sha> --request-id <id> --summary <text>`
+to retain a file without extraction. Add `--replace` for an explicitly requested update. Provide
+`--sources <json-file>` for Cortex sources used in the file.
+
+Create an independent instance with `knowledge copy --file <json-file>` containing
+`source: {path, revision}`, a new destination `path`, `baseRevision`, `requestId`, and `summary`.
+Both Markdown templates and attachments are supported. Use
+`knowledge download <path> --revision <sha> --output <new-local-file>` for a complete authenticated
+download with checksum verification. Fill the attachment using the client's file tools, validate it,
+and upload a replacement at the instance's path. Keep the template unchanged unless asked to update
+it. Markdown instances use ordinary reads and patches. Copies retain source access restrictions.
