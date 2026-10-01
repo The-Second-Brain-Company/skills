@@ -1,23 +1,18 @@
 # Cortex skills development
 
-This repository contains portable instructions for agents that run the Cortex CLI. Keep it
-independently installable and testable. The CLI is built and installed from its own repository;
-these tasks must not depend on a sibling checkout or the private service source.
+Keep these CLI instructions independently installable and testable. Use pinned mise tasks and run
+test, fmt, and fmt-check before committing. Keep code free of comments; rationale belongs in
+Markdown.
 
-Use the pinned mise tasks. Run `mise install` after changing tool versions. Run `mise run test`,
-`mise run fmt`, and `mise run fmt-check` before committing. Keep code free of comments and put
-rationale in Markdown.
+Complete Codex and Claude plugins bundle this CLI workflow and a Brain-bound MCP fallback. Keep the
+core workflow in cortex/SKILL.md; disclose installation/sign-in and management through references.
+The CLI is preferred wherever local execution is available. .cortex/config.toml is the preferred
+project format; the CLI resolves selection and enforces it on service calls. Verify identity, honor
+login's opt-out, preserve citations, and retain original Brain IDs and request IDs across recovery.
+Recover CLI failures through the CLI; changing transports needs an explicit decision and verified
+identity. Only a saved receipt confirms knowledge persistence.
 
-Keep `cortex/SKILL.md` focused on the core workflow. Load setup and management references only when
-needed. Preserve verified Brain selection, login's opt-out, cited retrieval, stable retry IDs,
-private credentials, and durable saved receipts. Install skills globally for Codex and Claude Code
-by default; keep `--project` as an optional installation target. Test temporary user directories and
-projects while preserving existing instructions. CLI selection stays in the working directory's
-`.cortex/config.toml`; only authentication is stored per user.
-
-These CLI skills are a side project; Cortex development prioritizes remote MCP and plugin
-distribution for ChatGPT/Codex and Claude. New product capabilities are implemented in the CLI as
-well; update these skills when their workflows change. Keep CLI-specific expansion and public
-distribution secondary.
-
-This is a local evaluation preview. Do not publish skills or modify existing MCP/plugin packages.
+The standalone installer is for isolated evaluation. Normal users install complete deployed plugins,
+without a second global skill or a project AGENTS.md pointer. Keep its temporary-directory tests and
+optional project installation usable without modifying unrelated instructions. The service's plugin
+packager copies these maintained references; release both plugin versions together when they change.

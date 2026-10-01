@@ -29,13 +29,15 @@ granting authority.
 
 At the first Brain operation in a task, run `cortex config` in its working directory. The CLI reads
 that directory's `.cortex/config.toml`. Keep the returned Brain ID and service origin for this task.
-The CLI also reads existing `.brain/config.toml` selections without rewriting them. New selections
-use `.cortex/config.toml` with `brain_id`. Existing `cortex_id` fields remain readable without
-rewriting them; use the CLI's reported selection when both files exist. Run subsequent commands in
-the same directory and let the CLI read the configured selection. Use `--brain <id>` only for a
-deliberate one-command override or to resume an earlier operation after the configured selection has
-changed. Retain the original Brain ID for that recovery; normal commands, waits, and retries use the
-configuration while it still selects that Brain.
+The CLI also reads existing `.cortex/config.json` and `.brain/config.toml` or JSON selections
+without rewriting them. TOML takes precedence within the chosen directory; invalid preferred
+selection stops access. New selections use `.cortex/config.toml` with `brain_id`. Existing
+`cortex_id` fields remain readable without rewriting them; use the CLI's reported selection when
+both files exist. Run subsequent commands in the same directory and let the CLI read the configured
+selection. Use `--brain <id>` only for a deliberate one-command override or to resume an earlier
+operation after the configured selection has changed. Retain the original Brain ID for that
+recovery; normal commands, waits, and retries use the configuration while it still selects that
+Brain.
 
 Login selects the only Brain automatically when the directory is unconfigured unless `--no-select`
 is given. Use its verified selection when `data.selection.selected` is true. Honor the opt-out and

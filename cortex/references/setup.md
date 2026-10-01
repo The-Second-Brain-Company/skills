@@ -17,30 +17,25 @@ cortex --version
 Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
 for each call, pass the same PATH on each call or use the verified absolute binary path.
 
-If no working binary is available, install from the existing local Rust source. Use
-`CORTEX_CLI_SOURCE_DIR` if provided, or the CLI source directory already known in this task. Confirm
-that it contains the `cortex-cli` Cargo package, `mise.toml`, and `scripts/install.sh`. In the full
-Cortex repository this is `cli/cli/`; an independent CLI mirror has them at its root. The installed
-skill's directory is not the CLI source directory. If the source location is unknown, ask for its
-path. Use the existing files, including saved uncommitted changes, without cloning another copy.
-
-With `cortex_cli_source` set to that absolute source directory, run:
+If no working binary is available, download the official installer and run it:
 
 ```sh
-mise -C "$cortex_cli_source" trust
-mise -C "$cortex_cli_source" install
-mise -C "$cortex_cli_source" run install
+cortex_installer="$(mktemp)"
+curl --fail --show-error --silent --location https://www.thesecondbrain.company/cli/install.sh --output "$cortex_installer"
+bash "$cortex_installer" --release
+rm -- "$cortex_installer"
+export PATH="$HOME/.local/bin:$PATH"
+cortex --version
 ```
 
-These commands build with the pinned toolchain and install to `BIN_DIR/cortex` or
-`~/.local/bin/cortex`. Verify the installed executable and PATH with the first block, then run
-`cortex --help`. Keep the task's working directory for subsequent login, selection, and knowledge
-commands; `mise -C` selects the build directory without changing the task's shell directory.
+The installer checks the release binary's SHA-256 before atomic replacement. It supports macOS and
+Linux on arm64 and x86_64. Keep credentials and project selection unchanged during updates. A host
+without shell execution or a supported binary uses the plugin's MCP workflow. Once a CLI task has
+started, recover CLI failures with its original Brain and retry ID; switching to MCP is an explicit
+choice after checking its Brain and pending writes.
 
-This preview has no published CLI download or public installer endpoint. Use local source instead of
-inventing a curl URL or installing a similarly named npm or Cargo package. If mise is unavailable,
-report that prerequisite and point to <https://mise.jdx.dev/>. If the build fails, preserve its
-diagnostic and address that failure before continuing with Cortex commands.
+For development from a known checkout, use its pinned `mise run install` task. The standalone skill
+installer is for evaluation; complete plugins already bundle this workflow.
 
 ## Command failures
 
@@ -74,13 +69,13 @@ stderr and keep the process alive while the user signs in. Resume that process t
 result. The loopback callback must reach the machine running `cortex`. A remote harness needs
 browser access to that loopback address or a local CLI session.
 
-The default origin is the local evaluation service at `http://second-brain.localhost:1355`. Respect
-an explicit `--origin` or `CORTEX_ORIGIN`. Authentication belongs to that origin. Inspect
-`data.selection` after login: a lookup or verification failure can leave sign-in successful with no
-Brain selected. Recover selection with `cortex use` after addressing the error; sign-in need not be
-repeated. Only the user completes email verification and browser consent. Never ask for an OAuth
-token or read credential files. A missing scope requires renewed browser consent; membership roles
-remain authoritative even after consent.
+The default origin is `https://www.thesecondbrain.company`. Respect an explicit `--origin` or
+`CORTEX_ORIGIN`. Authentication belongs to that origin. Inspect `data.selection` after login: a
+lookup or verification failure can leave sign-in successful with no Brain selected. Recover
+selection with `cortex use` after addressing the error; sign-in need not be repeated. Only the user
+completes email verification and browser consent. Never ask for an OAuth token or read credential
+files. A missing scope requires renewed browser consent; membership roles remain authoritative even
+after consent.
 
 After login, confirm `cortex account show` succeeds, then continue with selection in the original
 working directory. Only installation and authentication are shared across projects; Brain selection

@@ -4,10 +4,10 @@ Portable instructions for agents that can execute the `cortex` CLI. The collecti
 entry point, [cortex/SKILL.md](cortex/SKILL.md), with setup and management references loaded when
 needed. It handles selecting a Brain, cited retrieval, recording, onboarding, and access management.
 
-**Side project, local evaluation preview.** These skills support Cortex's optional CLI. Development
-prioritizes remote MCP and plugin distribution for ChatGPT/Codex and Claude. New product
-capabilities are implemented in the CLI as well, with these skills updated when their workflows
-change. CLI-specific expansion and public distribution remain secondary.
+Complete Codex and Claude plugins bundle these CLI instructions and a Brain-bound MCP fallback. The
+CLI is preferred for local execution; the plugin router chooses the transport. Normal users install
+complete deployed plugins through https://www.thesecondbrain.company/llms.txt. The standalone
+installer below remains available for isolated evaluation without a competing installed plugin.
 
 ## Install locally
 
@@ -23,10 +23,9 @@ mise run install
 This repository is independent of the Cortex CLI source. Installing these skills needs only the Node
 runtime pinned here; Rust and the CLI source are not required to install the skill. On first use,
 the skill checks `cortex --version` and follows its [setup guide](cortex/references/setup.md) when
-the CLI is missing. It recovers an existing installation outside PATH or builds from local CLI
-source with mise, verifies the result, and continues with authentication and the requested task.
-Provide `CORTEX_CLI_SOURCE_DIR` or the source directory in your request when the agent does not
-already know where it is. Public binary downloads remain deferred during this preview.
+the CLI is missing. It recovers an installation outside PATH or installs the official release with
+checksum verification, then continues with authentication and the requested task. Developer builds
+use pinned mise tasks.
 
 Installation is global for your user by default:
 
@@ -49,8 +48,9 @@ mise run install -- --replace
 
 The installer copies the current filesystem, including saved uncommitted changes. Replacement
 removes obsolete files from the previous skill. From the full Cortex repository root, run
-`mise run install-cli-skills -- --replace`. No package is published during this preview. The
-existing MCP plugin remains available; explicitly ask for the Cortex CLI during comparison.
+`mise run install-cli-skills -- --replace`. Normal releases copy these maintained references into
+both complete plugins. Standalone global skills remain an evaluation option; remove those copies
+before using the plugin router.
 
 For a project-only installation, use `mise run install -- --project /path/to/project`. This copies
 the skill to that project's `.agents/skills/cortex` and adds a pointer to its `AGENTS.md`,
