@@ -4,6 +4,11 @@ Portable instructions for agents that can execute the `cortex` CLI. The collecti
 entry point, [cortex/SKILL.md](cortex/SKILL.md), with setup and management references loaded when
 needed. It handles selecting a Brain, cited retrieval, recording, onboarding, and access management.
 
+**Side project, local evaluation preview.** These skills support Cortex's optional CLI. Development
+prioritizes remote MCP and plugin distribution for ChatGPT/Codex and Claude. New product
+capabilities are implemented in the CLI as well, with these skills updated when their workflows
+change. CLI-specific expansion and public distribution remain secondary.
+
 ## Install locally
 
 Install [mise](https://mise.jdx.dev/), then run these commands from this repository:

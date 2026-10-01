@@ -15,4 +15,9 @@ by default; keep `--project` as an optional installation target. Test temporary 
 projects while preserving existing instructions. CLI selection stays in the working directory's
 `.cortex/config.toml`; only authentication is stored per user.
 
+These CLI skills are a side project; Cortex development prioritizes remote MCP and plugin
+distribution for ChatGPT/Codex and Claude. New product capabilities are implemented in the CLI as
+well; update these skills when their workflows change. Keep CLI-specific expansion and public
+distribution secondary.
+
 This is a local evaluation preview. Do not publish skills or modify existing MCP/plugin packages.
