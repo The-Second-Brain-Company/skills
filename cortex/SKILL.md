@@ -94,6 +94,21 @@ and `summary`. Include only changed files; the service maintains required index 
 requires a fresh read and review. Ordinary facts use `record`. Protected moves use the reviewed
 management procedure in [management.md](references/management.md).
 
+## Check the recording allowance
+
+When the user asks what remains or when limits reset, run `cortex recording-allowance` in the
+selected Brain's directory. The command requires CLI 0.2.1 or newer. If an older CLI lacks it,
+update through the [official installer](references/setup.md#install-the-cli), verify the version,
+and retry with the original Brain.
+
+Report `data.status`, `data.remainingPercent`, and `data.resetsAt`. The renewal timestamp is UTC
+epoch milliseconds; translate it to the user's timezone when known. The allowance is shared by the
+Brain's members. `unlimited` has no remaining percentage or automatic renewal. `exhausted` pauses
+new recording; `unavailable` means incomplete accounting prevents recording. Saved knowledge remains
+searchable. Larger imports and complex updates consume more allowance, so a percentage cannot
+guarantee a number of updates. This read reserves no allowance. Keep internal dollar budgets and
+token counts out of the answer.
+
 ## Retain files and use templates
 
 Use

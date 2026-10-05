@@ -17,7 +17,8 @@ cortex --version
 Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
 for each call, pass the same PATH on each call or use the verified absolute binary path.
 
-If no working binary is available, download the official installer and run it:
+If no working binary is available, download the official installer and run it. Use the same steps
+when a required command needs a newer CLI, including `recording-allowance` on versions before 0.2.1:
 
 ```sh
 cortex_installer="$(mktemp)"
