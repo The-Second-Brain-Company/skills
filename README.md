@@ -11,21 +11,23 @@ installer below remains available for isolated evaluation without a competing in
 
 ## Install locally
 
-Install [mise](https://mise.jdx.dev/), then run these commands from this repository:
+Do all development in the main `repo/` checkout under `cli/skills`. This public skills repository is
+a mirror for discovery and raw GitHub content links, not a development checkout. For isolated
+evaluation, install [mise](https://mise.jdx.dev/) and run these commands from `repo/`:
 
 ```sh
 mise trust
 mise install
-mise run test
-mise run install
+mise run test-cli-skills
+mise run install-cli-skills
 ```
 
-This repository is independent of the Cortex CLI source. Installing these skills needs only the Node
-runtime pinned here; Rust and the CLI source are not required to install the skill. On first use,
-the skill checks `cortex --version` and follows its [setup guide](cortex/references/setup.md) when
-the CLI is missing. It recovers an installation outside PATH or installs the official release with
-checksum verification, then continues with authentication and the requested task. Developer builds
-use pinned mise tasks.
+The mirrored package is independent of the Cortex CLI source. Installing these skills needs only the
+Node runtime pinned here; Rust and the CLI source are not required to install the skill. On first
+use, the skill checks `cortex --version` and follows its [setup guide](cortex/references/setup.md)
+when the CLI is missing. It recovers an installation outside PATH or installs the official release
+with checksum verification, then continues with authentication and the requested task. Developer
+builds use pinned mise tasks.
 
 Installation is global for your user by default:
 
@@ -43,20 +45,19 @@ selection stays in each working directory, with no global default.
 After editing these source files, update both installed copies with:
 
 ```sh
-mise run install -- --replace
+mise run install-cli-skills -- --replace
 ```
 
 The installer copies the current filesystem, including saved uncommitted changes. Replacement
-removes obsolete files from the previous skill. From the full Cortex repository root, run
-`mise run install-cli-skills -- --replace`. Normal releases copy these maintained references into
-both complete plugins. Standalone global skills remain an evaluation option; remove those copies
-before using the plugin router.
+removes obsolete files from the previous skill. Normal releases copy these maintained references
+into both complete plugins. Standalone global skills remain an evaluation option; remove those
+copies before using the plugin router.
 
-For a project-only installation, use `mise run install -- --project /path/to/project`. This copies
-the skill to that project's `.agents/skills/cortex` and adds a pointer to its `AGENTS.md`,
-preserving existing instructions. Add `--replace` to update that copy. Separately, the CLI's
-`cortex --project /path/to/project use <id>` selects a Brain for a directory other than the current
-one.
+For a project-only evaluation, run `mise run install-cli-skills -- --project /path/to/project` from
+`repo/`. This copies the skill to that project's `.agents/skills/cortex` and adds a pointer to its
+`AGENTS.md`, preserving existing instructions. Add `--replace` to update that copy. Separately, the
+CLI's `cortex --project /path/to/project use <id>` selects a Brain for a directory other than the
+current one.
 
 ## Agent environments
 
@@ -94,14 +95,14 @@ its display in Claude's skill picker is unverified. No Claude-specific icon meta
 ## Development
 
 ```sh
-mise run test
+mise run test-cli-skills
 mise run fmt
 mise run fmt-check
 ```
 
-`cortex/` contains the skill and its references; `scripts/` contains the local installer and its
-tests. To verify isolation, copy this repository without `.local/` or project configuration and run
-the same tasks in the copy. The tests use temporary user directories and projects and require no
-service, credentials, or CLI source. Set `CORTEX_SKILLS_HOME` to an existing temporary directory to
-test global installation without changing your real skills. This override affects only the skills
-installer.
+Run these commands from `repo/`. `cli/skills/cortex/` contains the skill and its references;
+`cli/skills/scripts/` contains the local installer and its tests. The public mirror retains the
+package's own tasks for independent consumer use. The tests use temporary user directories and
+projects and require no service, credentials, or CLI source. Set `CORTEX_SKILLS_HOME` to an existing
+temporary directory to test global installation without changing your real skills. This override
+affects only the skills installer.

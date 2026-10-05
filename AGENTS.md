@@ -1,8 +1,10 @@
 # Cortex skills development
 
-Keep these CLI instructions independently installable and testable. Use pinned mise tasks and run
-test, fmt, and fmt-check before committing. Keep code free of comments; rationale belongs in
-Markdown.
+Develop only in the main `repo/` checkout under `cli/skills`. Run the root's `test-cli-skills` and
+`install-cli-skills` mise tasks from `repo/`. The sibling `skills` repository is a public mirror for
+discovery and raw GitHub content links; never edit or commit there. Keep these CLI instructions
+independently installable and testable. Run root test, fmt, and fmt-check tasks before committing.
+Keep code free of comments; rationale belongs in Markdown.
 
 Complete Codex and Claude plugins bundle this CLI workflow and a Brain-bound MCP fallback. Keep the
 core workflow in cortex/SKILL.md; disclose installation/sign-in and management through references.
