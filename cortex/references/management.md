@@ -3,6 +3,13 @@
 Run commands in the task's working directory so the CLI uses its configured Brain. Discover exact
 flags with the command's `--help`.
 
+Read `whoami` for the Brain's explicit Free or Pro plan. Free supports fixed unscoped Write
+invitations and revoking pending invitations. Pro is required for Read/Admin/custom invitations,
+role changes, ownership transfer and every `access` command, including own inspection. Increasing
+the recording allowance does not grant Pro. Saved permissions remain enforced after downgrade.
+Explain a Pro-required denial and direct plan changes to the private operator console. Keep the
+original Brain and request identity; another credential or transport does not grant the capability.
+
 - `people list` returns members, roles, and invitations.
 - `people invite <email> --role read|write|admin --request-id <id>` requires an explicit access
   choice. Use `--policy-file <json>` instead of `--role` for custom access. Preserve the original
