@@ -6,6 +6,12 @@ discovery and raw GitHub content links; never edit or commit there. Keep these C
 independently installable and testable. Run root test, fmt, and fmt-check tasks before committing.
 Keep code free of comments; rationale belongs in Markdown.
 
+Every commit changing `repo/cli/cli` or `repo/cli/skills` MUST synchronize and push both sibling
+mirrors and verify both remote `master` heads. Install the main repository's hooks with
+`mise run hooks-install`. Its post-commit hook publishes automatically. If hooks are unavailable,
+bypassed, or fail, run `mise run publish-cli-mirrors` from `repo/` and resolve failures before
+reporting completion. A failed publication leaves the source commit intact.
+
 Complete Codex and Claude plugins bundle this CLI workflow and a Brain-bound MCP fallback. Keep the
 core workflow in cortex/SKILL.md; disclose installation/sign-in and management through references.
 The CLI is preferred wherever local execution is available. .cortex/config.toml is the preferred

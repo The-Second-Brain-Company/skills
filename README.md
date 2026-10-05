@@ -39,9 +39,13 @@ standalone copy of this CLI skill does not configure that fallback connection.
 
 Edit every skill, README, installer, and release script in the main `repo/` checkout. CLI source
 lives under `cli/cli`, and portable skills live under `cli/skills`. The sibling CLI and skills
-repositories are publication mirrors for discovery and raw GitHub content links; mirror edits are
-overwritten by `mise run sync-cli-mirrors`. Build, test, commit, synchronize, and publish from
-`repo/`.
+repositories are publication mirrors for discovery and raw GitHub content links. Build, test,
+commit, synchronize, and publish from `repo/`; never edit or create commits in a mirror.
+
+After every commit changing either source root, run `mise run publish-cli-mirrors` from `repo/`. The
+main repository's installed post-commit hook runs this automatically, pushes both mirrors, and
+verifies both remote `master` heads. If publication fails, resolve the failure and rerun the task
+before considering the work complete.
 
 ## Install locally
 
