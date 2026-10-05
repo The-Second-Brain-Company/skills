@@ -12,9 +12,11 @@ retrieve information from a Brain. Resource interfaces use `brain_id`, `cortex b
 `--brain`.
 
 Use `cortex` for this workflow. At first use in a session, run `cortex --version`. If the CLI is
-missing or cannot run, follow [Install the CLI](references/setup.md#install-the-cli), install it,
-verify it, and resume the user's request. Keep an existing working installation unless an update is
-requested. A shell is required to run this skill.
+missing or cannot run, follow [Install the CLI](references/setup.md#install-the-cli) on a supported
+host, verify it, and resume the user's request. Keep an existing working installation unless an
+update is requested. If installation or execution is unavailable, follow
+[MCP fallback](references/setup.md#mcp-fallback) through the complete plugin's router. A standalone
+copy of this CLI skill does not configure an MCP connection.
 
 Read `cortex --help` or the relevant subcommand's `--help` when needed. Results are JSON: inspect
 `ok`, `data`, and `context`; errors include a code and retry context. `ok: false` means the

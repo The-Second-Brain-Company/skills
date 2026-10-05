@@ -17,26 +17,49 @@ cortex --version
 Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
 for each call, pass the same PATH on each call or use the verified absolute binary path.
 
-If no working binary is available, download the official installer and run it. Use the same steps
-when a required command needs a newer CLI, including `recording-allowance` on versions before 0.2.1:
+If no working binary is available on a supported host, run the official installer in Bash. Use the
+same steps when a required command needs a newer CLI, including `recording-allowance` on versions
+before 0.2.1:
 
-```sh
-cortex_installer="$(mktemp)"
-curl --fail --show-error --silent --location https://www.thesecondbrain.company/cli/install.sh --output "$cortex_installer"
-bash "$cortex_installer" --release
-rm -- "$cortex_installer"
-export PATH="$HOME/.local/bin:$PATH"
+```bash
+set -euo pipefail
+curl -fsSL https://www.thesecondbrain.company/cli/install.sh | bash
+cortex_bin_dir="${BIN_DIR:-$HOME/.local/bin}"
+export PATH="$cortex_bin_dir:$PATH"
 cortex --version
 ```
 
 The installer checks the release binary's SHA-256 before atomic replacement. It supports macOS and
-Linux on arm64 and x86_64. Keep credentials and project selection unchanged during updates. A host
-without shell execution or a supported binary uses the plugin's MCP workflow. Once a CLI task has
-started, recover CLI failures with its original Brain and retry ID; switching to MCP is an explicit
-choice after checking its Brain and pending writes.
+Linux on arm64 and x86_64; Linux requires glibc 2.36 or later. Keep credentials and project
+selection unchanged during updates. The same installer is available from the public CLI mirror at
+<https://raw.githubusercontent.com/The-Second-Brain-Company/cli/master/scripts/install.sh>.
 
-For development from a known checkout, use its pinned `mise run install` task. The standalone skill
-installer is for evaluation; complete plugins already bundle this workflow.
+Installation is complete when `cortex --version` succeeds. Knowledge access is ready only after
+`cortex account show` and `cortex whoami` succeed for the intended Brain in the task's working
+directory. Follow authentication and selection below; do not reinstall a working CLI to repair
+sign-in or permissions.
+
+For development, run `mise run install-cli` from the main `repo/` checkout. Maintain source under
+`repo/cli/cli` and `repo/cli/skills`; sibling CLI and skills repositories are publication mirrors.
+The standalone skill installer is for evaluation; complete plugins already bundle this workflow.
+
+## MCP fallback
+
+If the host has no shell, no supported release binary, or CLI installation or execution remains
+blocked after permitted recovery, use the complete plugin's MCP workflow. State that MCP will be
+used, connect to `/app/api/mcp/brain` at the intended service origin through native OAuth, and call
+`whoami` before knowledge access. Verify the returned Brain ID against the task's intended Brain. If
+they differ, reconnect and select the intended Brain during consent, then verify again. Project
+configuration cannot select the MCP Brain. If the host exposes no MCP connection flow, report that
+setup is blocked and give the connection URL; do not claim setup succeeded.
+
+Retain the original service origin, Brain, input, and request ID for any pending write. Inspect a
+known runId with `cortex runs get` or MCP `wait` after verifying identity. If no runId is available
+or status cannot be recovered, report uncertainty and keep the original request. Never silently
+replay an uncertain write through MCP or generate a new retry ID for it. CLI authentication,
+permission, and service errors require their own recovery; switching transports does not grant
+permission or prove that knowledge is missing. If CLI sign-in's loopback callback cannot reach the
+remote harness, native MCP OAuth is an alternative setup path.
 
 ## Command failures
 

@@ -9,6 +9,40 @@ CLI is preferred for local execution; the plugin router chooses the transport. N
 complete deployed plugins through https://www.thesecondbrain.company/llms.txt. The standalone
 installer below remains available for isolated evaluation without a competing installed plugin.
 
+## User setup and verification
+
+Install the complete plugin using the [agent guide](https://www.thesecondbrain.company/llms.txt) or
+[browser guide](https://www.thesecondbrain.company/install), then start a fresh task or session to
+load its instructions and tools. A missing CLI on a supported host can be installed with:
+
+```bash
+curl -fsSL https://www.thesecondbrain.company/cli/install.sh | bash
+```
+
+The [setup reference](cortex/references/setup.md) covers PATH, sign-in, Brain selection, and
+recovery. CLI setup is ready when `cortex --version`, `cortex account show`, and `cortex whoami`
+succeed for the intended Brain in the task's working directory. Reuse existing sign-in and
+selection.
+
+When CLI installation or execution is unavailable, the complete plugin can use Brain-bound MCP.
+Native OAuth and MCP `whoami` must verify the intended Brain before knowledge access. Preserve
+pending writes' original Brain, input, and request ID when recovering or changing transport. A
+standalone copy of this CLI skill does not configure that fallback connection.
+
+| Entry point                            | Purpose                                              | Maintained source in `repo/`   |
+| -------------------------------------- | ---------------------------------------------------- | ------------------------------ |
+| [Cortex CLI workflow](cortex/SKILL.md) | Brain selection, knowledge, and management           | `cli/skills/cortex`            |
+| Complete plugin router                 | CLI installation, transport choice, and MCP fallback | `plugins/cortex/skills/cortex` |
+| Agent install guide                    | Client-specific installation and readiness checks    | `js/www/public/llms.txt`       |
+
+## Contributing
+
+Edit every skill, README, installer, and release script in the main `repo/` checkout. CLI source
+lives under `cli/cli`, and portable skills live under `cli/skills`. The sibling CLI and skills
+repositories are publication mirrors for discovery and raw GitHub content links; mirror edits are
+overwritten by `mise run sync-cli-mirrors`. Build, test, commit, synchronize, and publish from
+`repo/`.
+
 ## Install locally
 
 Do all development in the main `repo/` checkout under `cli/skills`. This public skills repository is
@@ -71,11 +105,13 @@ its [AGENTS support](https://code.claude.com/docs/en/memory). Where `CLAUDE.md` 
 import `AGENTS.md` or load the skill explicitly. The source package itself needs no `.claude`
 folder.
 
-The harness must have a shell, the locally built binary on PATH, and access to the service. Hosted
-Claude Cowork and cloud sessions do not automatically load skills or binaries from your host's home
-directory. Make the skill and a compatible binary available inside that environment and ensure its
-OAuth callback is reachable before evaluating it there. The current tested target is a local Codex
-or Claude Code shell, on macOS; the CLI's Rust source can also be built for Linux.
+Standalone evaluation needs a shell, a supported release binary on PATH, and access to the service.
+Hosted Claude Cowork and cloud sessions do not automatically load skills or binaries from your
+host's home directory. Make the skill and a compatible binary available inside that environment and
+ensure its OAuth callback is reachable before evaluating it there. The current tested target is a
+local Codex or Claude Code shell on macOS. Published Linux arm64 and x86_64 installer paths are also
+verified; Linux requires glibc 2.36 or later. Hosted clients normally use the complete plugin's MCP
+connection.
 
 ## Skill icon
 
