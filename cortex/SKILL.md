@@ -67,6 +67,17 @@ answer. Follow opaque `nextCursor` with `--cursor` when present, otherwise `next
 grep, carry `nextMatchOffset` together with `nextOffset` when returned. `knowledge grep` performs
 literal matching, and `knowledge read-many --file -` accepts JSON ranges for a batch.
 
+Search supports exact `--type`, `--status`, and `--tag` filters. Keep the filters unchanged when
+following pages. Results include the declared title, description, metadata, and review-date state.
+`stale: true` means the declared review date passed, not that the content is false. A `verified`
+record is a supplied verification declaration, not Cortex approval. Read its scope before applying
+it to a claim.
+
+Use `cortex knowledge links <path> --direction outgoing` or `--direction incoming` to explore a
+document's readable references and backlinks. Pass the same revision. Continue through empty pages
+using `--cursor` or `--offset`; an empty candidate page does not establish that no links exist. Use
+links when they help answer the question, rather than expanding every search result.
+
 Cite the returned `source_url` alongside supported claims. Preserve draft, proposal, approval,
 conflict, and uncertainty distinctions in sources. Explain relevant missing evidence without
 inventing organizational facts. Search directly; a root listing or AGENTS.md read is not a required
