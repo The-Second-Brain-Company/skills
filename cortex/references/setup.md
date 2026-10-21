@@ -189,7 +189,10 @@ After `cortex --version`, `cortex account show`, `cortex config`, and `cortex wh
 the intended Brain, installation and connection are ready. Say "You're ready. Open a new chat and
 say 'Let's talk about my Brain.'" Keep the verified Brain name, ID, service origin, binary path, and
 recovery details in internal task context. Do not ask the person to copy technical setup details. Do
-not require a knowledge interview or a save to complete installation.
+not require a knowledge interview or a save to complete installation. Keep resolved PATH and runtime
+diagnostics internal. In Claude Code, the fresh chat loads the updated plugin. Do not turn the CLI's
+generic restart notice into a separate desktop-app restart or `/reload-plugins` step. Report a
+loading blocker only if a fresh session actually fails to load it.
 
 Prefer a new chat in the same project so `.cortex/config.toml` remains available. If the new chat
 has another working directory, explicit Brain access authorizes checking the existing sign-in and
