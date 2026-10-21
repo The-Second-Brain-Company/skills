@@ -20,12 +20,16 @@ user asks to work without the Brain or the task is unrelated. Explicit Cortex se
 the installation and selection workflow below.
 
 Use `cortex` for this workflow. At first relevant use in a session, run `cortex --version`. If PATH
-misses it, check `${BIN_DIR:-$HOME/.local/bin}/cortex` and use its verified absolute path or
-preserve that directory in PATH. This read-only discovery also applies to ordinary tasks. For an
-explicit setup request or authorized Brain access that needs a connection, if the CLI is missing or
-cannot run, follow [Install the CLI](references/setup.md#install-the-cli) on a supported host,
-verify it, and resume the user's request. Keep an existing working installation unless an update is
-requested. If installation or execution is unavailable, follow
+misses it, check `${BIN_DIR:-$HOME/.local/bin}/cortex` and use its verified absolute path or export
+that directory in every tool call. Keep the verified path in internal task context and handle PATH
+recovery without asking the person to edit shell files or open a terminal. This read-only discovery
+also applies to ordinary tasks. For an explicit setup request or authorized Brain access that needs
+a connection, if the CLI is missing or cannot run, follow
+[Install the CLI](references/setup.md#install-the-cli) on a supported host, verify it, and resume
+the user's request. Keep an existing working installation unless an update is requested. An explicit
+install request checks and updates an older complete plugin through `/llms.txt`, even if this skill
+is already loaded. Preserve current or newer versions, sign-in, Brain selection, existing
+installation scope, and unrelated plugins. If installation or execution is unavailable, follow
 [MCP fallback](references/setup.md#mcp-fallback) through the complete plugin's router. A standalone
 copy of this CLI skill does not configure an MCP connection.
 

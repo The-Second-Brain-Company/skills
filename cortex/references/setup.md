@@ -1,5 +1,18 @@
 # Setup and onboarding
 
+## Check the complete plugin
+
+For an explicit Cortex install or update request, fetch `/llms.txt` from the service origin and
+follow its client-specific version check. Install a missing complete plugin and update an older one
+from the verified published package. A loaded skill does not establish that the installed version is
+current. Keep a current or newer version, existing scope, sign-in, and Brain selection. Claude
+marketplace refresh alone does not update an installed plugin. Use its native plugin update command
+for an older version. Respect managed policy and preserve unrelated plugins.
+
+Continue this guide in the same chat if the running session retains older plugin instructions. The
+fresh chat after setup loads the updated package. Hosted manual uploads require the host's upload
+control and cannot be presented as an automatic local update.
+
 ## Install the CLI
 
 Install a missing CLI only for requested setup or explicit Brain access that needs a connection.
@@ -16,7 +29,10 @@ cortex --version
 ```
 
 Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
-for each call, pass the same PATH on each call or use the verified absolute binary path.
+for each call, export the same directory in every call or use the verified absolute binary path.
+Keep this path in internal task context. Resolve PATH and installed runtime or shim failures
+internally without changing personal shell or global toolchain settings. Do not ask the person to
+open a terminal, edit or source shell files, or configure PATH.
 
 If no working binary is available on a supported host, run the official installer in Bash. Use the
 same steps when a required command needs a newer CLI, including `recording-allowance` on versions
@@ -106,15 +122,18 @@ cortex login --email person@example.com --approve-scopes "knowledge:read knowled
 ```
 
 When `data.status` is `awaiting_code`, ask for the six-digit code sent to that email. The user may
-return this short-lived code in this chat. Pass it to `cortex login --code-stdin` through stdin,
-without a code argument, shell history, a file, or echoing it in tool output. Use the host's stdin
-facility and a bounded input stream. For an interactive tool session, start this command, then send
-the code plus newline through the tool's stdin. Bash hides terminal echo and closes the bounded
-pipe; the code never enters command text or an external process argument.
+return this short-lived code in this chat. Pass it to `cortex login --code-stdin` with a bounded
+stdin stream. Prefer the host's stdin facility. For an interactive tool session, start this command,
+then send the code plus newline through the tool's stdin:
 
 ```sh
 bash -c 'IFS= read -r -s cortex_sign_in_code; printf %s "$cortex_sign_in_code" | cortex login --code-stdin'
 ```
+
+When the host only accepts command text, a shell builtin `printf` pipe into `--code-stdin` is also
+supported. The code may appear in the tool command and chat transcript. Do not promise to hide it.
+Avoid extra copies, files, and diagnostic output. This exception applies only to the short-lived
+email code supplied for the requested sign-in.
 
 Never ask the user for a cookie, challenge, OAuth code, access or refresh token, or credential file.
 The CLI keeps protocol secrets in private per-origin state. Codes expire after 15 minutes. After
@@ -167,9 +186,10 @@ requirement and retry that same request. Do not broaden permissions silently. If
 report the created Brain and retain the previous selection and pending writes.
 
 After `cortex --version`, `cortex account show`, `cortex config`, and `cortex whoami` succeed for
-the intended Brain, installation and connection are ready. Tell the user its verified name and ID,
-then invite a fresh chat: "Let's talk about my Brain." Include the service origin and Brain ID in
-the handoff. Do not require a knowledge interview or a save to complete installation.
+the intended Brain, installation and connection are ready. Say "You're ready. Open a new chat and
+say 'Let's talk about my Brain.'" Keep the verified Brain name, ID, service origin, binary path, and
+recovery details in internal task context. Do not ask the person to copy technical setup details. Do
+not require a knowledge interview or a save to complete installation.
 
 Prefer a new chat in the same project so `.cortex/config.toml` remains available. If the new chat
 has another working directory, explicit Brain access authorizes checking the existing sign-in and
