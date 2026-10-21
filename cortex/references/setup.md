@@ -18,21 +18,13 @@ control and cannot be presented as an automatic local update.
 Install a missing CLI only for requested setup or explicit Brain access that needs a connection.
 Read-only discovery of an existing CLI also applies to relevant ordinary tasks. First check whether
 it is already installed outside the agent's PATH. The default location is `~/.local/bin/cortex`;
-`BIN_DIR` can override its directory. If the binary there runs successfully, use it and add that
-directory to the shell's PATH for subsequent commands:
+`BIN_DIR` can override its directory. Resolve its absolute path internally and invoke that binary
+directly with `--version` in its own tool call. Keep a working binary.
 
-```sh
-cortex_bin_dir="${BIN_DIR:-$HOME/.local/bin}"
-"$cortex_bin_dir/cortex" --version
-export PATH="$cortex_bin_dir:$PATH"
-cortex --version
-```
-
-Use an absolute `BIN_DIR` when overriding the install directory. If the agent starts a fresh shell
-for each call, export the same directory in every call or use the verified absolute binary path.
-Keep this path in internal task context. Resolve PATH and installed runtime or shim failures
-internally without changing personal shell or global toolchain settings. Do not ask the person to
-open a terminal, edit or source shell files, or configure PATH.
+Use an absolute `BIN_DIR` when overriding the install directory. Retain the verified absolute binary
+path in internal task context and invoke it directly across fresh shells. Resolve PATH and installed
+runtime or shim failures internally without changing personal shell or global toolchain settings. Do
+not ask the person to open a terminal, edit or source shell files, or configure PATH.
 
 If no working binary is available on a supported host, run the official installer in Bash. Use the
 same steps when a required command needs a newer CLI, including `recording-allowance` on versions
@@ -41,10 +33,9 @@ before 0.2.1, or chat sign-in before 0.5.0:
 ```bash
 set -euo pipefail
 curl -fsSL https://www.thesecondbrain.company/cli/install.sh | bash
-cortex_bin_dir="${BIN_DIR:-$HOME/.local/bin}"
-export PATH="$cortex_bin_dir:$PATH"
-cortex --version
 ```
+
+After the installer finishes, verify the binary in a separate tool call using its absolute path.
 
 The installer checks the release binary's SHA-256 before atomic replacement. It supports macOS and
 Linux on arm64 and x86_64; Linux requires glibc 2.36 or later. Keep credentials and project
@@ -59,6 +50,41 @@ sign-in or permissions.
 For development, run `mise run install-cli` from the main `repo/` checkout. Maintain source under
 `repo/cli/cli` and `repo/cli/skills`; sibling CLI and skills repositories are publication mirrors.
 The standalone skill installer is for evaluation; complete plugins already bundle this workflow.
+
+## Run readiness checks separately
+
+During onboarding, run each read-only readiness check in its own tool call. Inspect each result
+before the next call. Resolve an authentication or selection error before continuing.
+
+First, check the CLI version:
+
+```sh
+cortex --version
+```
+
+Then check the existing account:
+
+```sh
+cortex account show
+```
+
+Read the project selection:
+
+```sh
+cortex config
+```
+
+Verify the selected Brain:
+
+```sh
+cortex whoami
+```
+
+Use one direct CLI command per tool call. Replace `cortex` in these examples with its verified
+absolute path for every readiness call. Preserve the task's working directory, service origin, and
+Brain context. Do not combine checks with shell operators, pipes, wrappers, or executable-variable
+assignments. Fetch guides, run installers, and perform writes in separate tool calls. Keep these
+checks internal and respect the host's permission decisions.
 
 ## MCP fallback
 
@@ -176,7 +202,17 @@ name and original Brain in the task before calling:
 
 ```sh
 cortex brains create "Personal Brain" --request-id <saved-id>
+```
+
+Inspect the creation result, then select the returned Brain in its own tool call:
+
+```sh
 cortex use <returned-id>
+```
+
+Inspect selection, then verify identity in another tool call:
+
+```sh
 cortex whoami
 ```
 
