@@ -87,9 +87,11 @@ ordinary work, report unavailable saved context and continue without starting si
 permission error requires its own recovery and does not mean the CLI needs reinstalling.
 `cortex config` only reads local selection and cannot confirm authentication.
 
-Use `cortex login` once per service origin. It opens the existing email sign-in and consent page,
-then selects the sole Brain when the directory has no saved selection. Add `--no-select` when the
-user wants to sign in without automatic selection. Existing selection is preserved. In an agent
+Use `cortex login` once per service origin. It opens the email sign-in and consent page. Enter the
+six-digit emailed code on that same page, then approve consent. Codes expire after 15 minutes. After
+five incorrect attempts, wait 15 minutes before trying again; resending does not clear the limit.
+Login then selects the sole Brain when the directory has no saved selection. Add `--no-select` when
+the user wants to sign in without automatic selection. Existing selection is preserved. In an agent
 terminal that cannot open a browser, add `--no-browser`; share the `authorization_required` URL from
 stderr and keep the process alive while the user signs in. Resume that process to receive the
 result. The loopback callback must reach the machine running `cortex`. A remote harness needs
@@ -99,9 +101,9 @@ The default origin is `https://www.thesecondbrain.company`. Respect an explicit 
 `CORTEX_ORIGIN`. Authentication belongs to that origin. Inspect `data.selection` after login: a
 lookup or verification failure can leave sign-in successful with no Brain selected. Recover
 selection with `cortex use` after addressing the error; sign-in need not be repeated. Only the user
-completes email verification and browser consent. Never ask for an OAuth token or read credential
-files. A missing scope requires renewed browser consent; membership roles remain authoritative even
-after consent.
+completes email verification and browser consent. Keep email codes and browser challenges out of
+chat and tool arguments. Never ask for an OAuth token or read credential files. A missing scope
+requires renewed browser consent; membership roles remain authoritative even after consent.
 
 After login, confirm `cortex account show` succeeds, then continue with selection in the original
 working directory. Only installation and authentication are shared across projects; Brain selection
