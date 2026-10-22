@@ -27,8 +27,7 @@ runtime or shim failures internally without changing personal shell or global to
 not ask the person to open a terminal, edit or source shell files, or configure PATH.
 
 If no working binary is available on a supported host, run the official installer in Bash. Use the
-same steps when a required command needs a newer CLI, including `recording-allowance` on versions
-before 0.2.1, or chat sign-in before 0.5.0:
+same steps for an update from a release before 0.6.0, which lacks `cortex update`:
 
 ```bash
 set -euo pipefail
@@ -50,6 +49,27 @@ sign-in or permissions.
 For development, run `mise run install-cli` from the main `repo/` checkout. Maintain source under
 `repo/cli/cli` and `repo/cli/skills`; sibling CLI and skills repositories are publication mirrors.
 The standalone skill installer is for evaluation; complete plugins already bundle this workflow.
+
+## Update the CLI
+
+For a requested CLI update, or an authorized command that returns `upgrade_required`, invoke the
+verified absolute CLI path with `update`:
+
+```sh
+cortex update
+```
+
+This command needs no sign-in or Brain selection. It downloads the latest stable official binary,
+verifies its checksum and version, and atomically replaces the executable you ran. It preserves
+credentials and project configuration. An already current or newer installation returns
+`status: "current"`. Do not run it for an optional `context.update` notice without an update
+request. There is no background updater or release polling during ordinary work.
+
+After success, verify `--version` in a separate tool call and resume with the original Brain, input,
+and retry ID. Keep any known run ID and reconcile an uncertain earlier write before submitting
+again. Updates change the CLI binary; complete plugin updates still follow `/llms.txt`. If this
+older CLI has no `update` command, use the official installer above. On write permission or download
+failure, report the actual blocker and retain the working installation.
 
 ## Run readiness checks separately
 

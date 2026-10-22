@@ -32,6 +32,12 @@ Brain selection, existing installation scope, and unrelated plugins. If installa
 unavailable, follow [MCP fallback](references/setup.md#mcp-fallback) through the complete plugin's
 router. A standalone copy of this CLI skill does not configure an MCP connection.
 
+CLI 0.6.0 adds `cortex update`. For a requested CLI update or a newer CLI required by an authorized
+command, follow [CLI updates](references/setup.md#update-the-cli). Optional `context.update` hints
+announce a newer release without authorizing an update. `upgrade_required` means the service
+rejected the operation before execution. Preserve the original Brain, input, and retry ID through
+the update and resume; never create a replacement recording request.
+
 Ordinary work may keep a verified selected MCP connection without installing the CLI. Follow the
 complete plugin's router for that connection. The missing-CLI setup steps do not override the
 ordinary-task boundary above.
