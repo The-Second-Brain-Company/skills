@@ -253,9 +253,9 @@ report the created Brain and retain the previous selection and pending writes.
 
 After `cortex --version`, `cortex account show`, `cortex config`, and `cortex whoami` succeed for
 the intended Brain, finish local transport setup above. Once its effective MCP setting is verified,
-installation and connection are ready. Say "You're ready. Open a new chat and say 'Let's talk about
-my Brain.'" Keep the verified Brain name, ID, service origin, binary path, and recovery details in
-internal task context. Do not ask the person to copy technical setup details. Do not require a
+installation and connection are ready. Say "You're ready. Open a new chat and ask 'What can I do
+with my Brain?'" Keep the verified Brain name, ID, service origin, binary path, and recovery details
+in internal task context. Do not ask the person to copy technical setup details. Do not require a
 knowledge interview or a save to complete installation. Keep resolved PATH and runtime diagnostics
 internal. In Claude Code, the fresh chat loads the updated plugin. Do not turn the CLI's generic
 restart notice into a separate desktop-app restart or `/reload-plugins` step. Report a loading
@@ -266,6 +266,20 @@ has another working directory, explicit Brain access authorizes checking the exi
 selecting the handoff's verified Brain. With no handoff and one membership, use that sole Brain. Ask
 only when several memberships leave the choice unclear. Do not sign in again when the saved
 connection works. Ordinary tasks without selection still do not authorize implicit setup.
+
+## What can I do with my Brain?
+
+Answer capability questions in plain language with a few things the person can ask for. Explain that
+their Brain keeps shared knowledge they can use across chats and with teammates who have access. Use
+examples such as "What did we decide about pricing?", "Draft a proposal using what we know about
+this client", "Remember this decision", and "Add this document to my Brain". Mention that they can
+also ask to update saved knowledge or invite a teammate, subject to their role and plan. Connect
+examples to context the person has already shared, without inventing knowledge in their Brain.
+
+Say "You can always ask your Brain what it can help with." Then invite the person to choose
+something to try. A capability question needs no installation, sign-in, Brain selection, or save.
+When they choose a task, follow the existing access and save rules. Start onboarding only when they
+want to add context for reuse.
 
 ## Onboard
 

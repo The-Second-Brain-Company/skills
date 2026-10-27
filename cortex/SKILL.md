@@ -3,7 +3,8 @@ name: cortex
 description:
   Use relevant knowledge from the selected Cortex Brain for project work, client deliverables, and
   team decisions without requiring a Cortex keyword. Also use the CLI for Brain setup, knowledge
-  recording, and management. Skip unrelated generic tasks and requests to work without the Brain.
+  recording, management, and questions about what Cortex or a Brain can do. Skip unrelated generic
+  tasks and requests to work without the Brain.
 ---
 
 # Cortex
@@ -11,6 +12,9 @@ description:
 Cortex is the product and CLI. Users create and select Brains, record knowledge into a Brain, and
 retrieve information from a Brain. Resource interfaces use `brain_id`, `cortex brains`, and
 `--brain`.
+
+For questions about what Cortex, a Brain, or "Second Brain" can do, follow
+[what can I do with my Brain?](references/setup.md#what-can-i-do-with-my-brain).
 
 For ordinary work, use the already selected Brain only when the task depends on its projects,
 clients, decisions, preferences, or templates. Check `cortex config` when selection is unknown.
