@@ -46,6 +46,7 @@ test("the default installs complete global skills for both agents without projec
         "agents/openai.yaml",
         "assets/logo.svg",
         "references/setup.md",
+        "references/local-mcp.md",
         "references/management.md",
       ]) {
         assert.deepEqual(await readFile(join(path, asset)), await readFile(join(source, asset)));

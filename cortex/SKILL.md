@@ -48,6 +48,12 @@ command per call, with the verified absolute path for every readiness check. Kee
 installers, writes, and shell-variable assignments out of these readiness calls. Follow
 [the readiness steps](references/setup.md#run-readiness-checks-separately).
 
+After all four checks verify the intended account and Brain during local onboarding, follow
+[local MCP control](references/local-mcp.md). Disable only this client's Cortex MCP server, keeping
+the complete plugin and its skills. Read back the effective setting before completing setup. Keep
+MCP available until any pending MCP write is reconciled. Clients without a working CLI retain MCP
+onboarding; the plugin description alone cannot control a host's MCP startup.
+
 Read `cortex --help` or the relevant subcommand's `--help` when needed. Results are JSON: inspect
 `ok`, `data`, and `context`; errors include a code and retry context. `ok: false` means the
 operation failed, not that knowledge is absent. For `io`, `network`, or `protocol`, follow

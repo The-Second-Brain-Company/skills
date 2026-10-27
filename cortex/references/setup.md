@@ -106,13 +106,23 @@ Brain context. Do not combine checks with shell operators, pipes, wrappers, or e
 assignments. Fetch guides, run installers, and perform writes in separate tool calls. Keep these
 checks internal and respect the host's permission decisions.
 
+## Finish local transport setup
+
+After all four readiness checks succeed for the intended account and Brain, follow
+[local MCP control](local-mcp.md). Disable only the current client's Cortex MCP server and verify
+the effective setting before completing local onboarding. Keep the complete plugin and its skills.
+Reconcile pending MCP writes before disabling their connection. If the host cannot apply the
+setting, report that the CLI works but local MCP suppression remains incomplete.
+
 ## MCP fallback
 
 If the host has no shell, no supported release binary, or CLI installation or execution remains
 blocked after permitted recovery, use the complete plugin's MCP workflow. State that MCP will be
-used, connect to `/app/api/mcp/brain` at the intended service origin through native OAuth, and call
-`whoami` before knowledge access. Verify the returned Brain ID against the task's intended Brain. If
-they differ, reconnect and select the intended Brain during consent, then verify again. Project
+used. Keep its Cortex MCP server enabled; if local onboarding previously disabled that server,
+restore only its client setting using [local MCP control](local-mcp.md) before connecting. Connect
+to `/app/api/mcp/brain` at the intended service origin through native OAuth, and call `whoami`
+before knowledge access. Verify the returned Brain ID against the task's intended Brain. If they
+differ, reconnect and select the intended Brain during consent, then verify again. Project
 configuration cannot select the MCP Brain. If the host exposes no MCP connection flow, report that
 setup is blocked and give the connection URL; do not claim setup succeeded.
 
@@ -242,13 +252,14 @@ requirement and retry that same request. Do not broaden permissions silently. If
 report the created Brain and retain the previous selection and pending writes.
 
 After `cortex --version`, `cortex account show`, `cortex config`, and `cortex whoami` succeed for
-the intended Brain, installation and connection are ready. Say "You're ready. Open a new chat and
-say 'Let's talk about my Brain.'" Keep the verified Brain name, ID, service origin, binary path, and
-recovery details in internal task context. Do not ask the person to copy technical setup details. Do
-not require a knowledge interview or a save to complete installation. Keep resolved PATH and runtime
-diagnostics internal. In Claude Code, the fresh chat loads the updated plugin. Do not turn the CLI's
-generic restart notice into a separate desktop-app restart or `/reload-plugins` step. Report a
-loading blocker only if a fresh session actually fails to load it.
+the intended Brain, finish local transport setup above. Once its effective MCP setting is verified,
+installation and connection are ready. Say "You're ready. Open a new chat and say 'Let's talk about
+my Brain.'" Keep the verified Brain name, ID, service origin, binary path, and recovery details in
+internal task context. Do not ask the person to copy technical setup details. Do not require a
+knowledge interview or a save to complete installation. Keep resolved PATH and runtime diagnostics
+internal. In Claude Code, the fresh chat loads the updated plugin. Do not turn the CLI's generic
+restart notice into a separate desktop-app restart or `/reload-plugins` step. Report a loading
+blocker only if a fresh session actually fails to load it.
 
 Prefer a new chat in the same project so `.cortex/config.toml` remains available. If the new chat
 has another working directory, explicit Brain access authorizes checking the existing sign-in and
